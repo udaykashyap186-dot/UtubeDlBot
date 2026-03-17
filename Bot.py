@@ -17,14 +17,10 @@ bot = TelegramClient('bot', API_ID, API_HASH)
 DOWNLOAD_DIR = "downloads"
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
-@bot.on(events.NewMessage(pattern=None))
+@bot.on(events.NewMessage(pattern=r'https?://(www\.)?(youtube\.com|youtu\.be)/.*'))
 async def handle_message(event):
-    if event.is_private and event.text and not event.out:
+    if event.is_private and not event.out:
         url = event.text.strip()
-        
-        # Check YouTube URL
-        if "youtube.com" not in url and "youtu.be" not in url:
-            return await event.reply("❌ Send YouTube URL only!")
         
         await event.reply("🔍 Analyzing...")
         
